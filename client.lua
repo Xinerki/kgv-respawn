@@ -24,7 +24,7 @@ function processDeathEvent()
 		Citizen.Wait (0)
 		-- SetPedDropsWeaponsWhenDead(PlayerPedId(), true)
 		
-		if IsPedDeadOrDying(PlayerPedId()) == 1 then
+		if IsPedDeadOrDying(PlayerPedId(), true) == 1 then
 			if alreadyDead == false then
 				alreadyDead = true
 				Citizen.CreateThread(onPlayerDead) -- manual respawn
@@ -32,7 +32,7 @@ function processDeathEvent()
 			end
 		end
 		
-		if IsPedDeadOrDying(PlayerPedId()) == false then
+		if IsPedDeadOrDying(PlayerPedId(), true) == false then
 			if alreadyDead == true then
 				alreadyDead = false
 				Citizen.CreateThread(onPlayerNotDeadAnymore)
@@ -138,6 +138,8 @@ function onPlayerDead()
 				NetworkSetInSpectatorMode(true, killer)
 				StopGameplayHint(true)
 				DoScreenFadeIn(250)
+				RenderScriptCams(false, false, 0, true, true)
+				DestroyCam(cam, false)
 			end
 		end
 	until IsDisabledControlJustPressed(0, 24) or IsDisabledControlJustPressed(0, 22)
